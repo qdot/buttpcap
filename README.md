@@ -18,15 +18,23 @@ reroute rumble packets to sex toys via [The Buttplug Sex Toy Control Library](ht
 
 There's a [demo video on the Buttpluggin' With qDot Youtube Channel](https://www.youtube.com/watch?v=KyMZBOQtmic).
 
-## WARNING
+## WARNING AGAINST USING THIS AT ALL
 
-Do not actually use this. This is a shitpost project I made to work around the fact that games using EasyAntiCheat and other anti cheat products don't work with the [Game Haptics Router](https://intiface.com/ghr).
+**Do not actually use this.** This is a shitpost project I made to work around the fact that games using EasyAntiCheat and other anti cheat products don't work with the [Game Haptics Router](https://intiface.com/ghr).
+
+Please go use the GHR and just act like this doesn't exist.
 
 This project requires you to install a USB Packet Filter, which means EVERY SINGLE THING that goes over your USB bus, including keystrokes from your keyboard, can be picked up by any program with admin privileges.
 
-I cannot stress how fucking stupid this is. Do not use this.
+I cannot stress how fucking stupid this is. You do not want to backdoor yourself, even in order to backdoor yourself.
+
+**Do not use this.**
 
 But if you really want to anyways, it's your funeral, here's the code.
+
+## WARNING IF YOU IGNORED THE LAST WARNING
+
+If you do for some reason decide to ignore my multiple warnings and use this stupid, stupid thing, please do not use it in online games with random matchmaking or public lobbies. Only use it in private situations where all players are consenting.
 
 ## Current Status
 
