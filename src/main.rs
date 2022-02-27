@@ -3,7 +3,7 @@ use buttplug::client::{
 };
 use futures::StreamExt;
 use tokio::{
-    io::{AsyncBufReadExt, BufReader},
+    io::AsyncReadExt,
     sync::mpsc,
 };
 
@@ -24,6 +24,8 @@ async fn buttplug_loop(mut event_receiver: mpsc::Receiver<[u8; 2]>) {
             buttplug_event = event_stream.next() => {
                 match buttplug_event.unwrap() {
                     ButtplugClientEvent::DeviceAdded(device) => {
+                        // Skip XBox controllers otherwise we'll fuck up their haptics, since that's
+                        // what drives this program in the first place.
                         if !device.name.contains("XInput") &&
                           device
                             .allowed_messages
@@ -38,6 +40,7 @@ async fn buttplug_loop(mut event_receiver: mpsc::Receiver<[u8; 2]>) {
             }
             rumble_event = event_receiver.recv() => {
                 let rumble_event = rumble_event.unwrap();
+                println!("{:?}", rumble_event);
                 for device in &devices {
                     device.vibrate(VibrateCommand::Speed((rumble_event[0] as f64 + rumble_event[1] as f64) / (0xff * 2) as f64)).await.unwrap();
                 }
@@ -56,24 +59,21 @@ async fn main() {
 
     let program_args = vec![
         "-o",
-        "gamepad6.pcap",
+        "-",
         "--devices",
-        "35",
+        "6",
         "-d",
         "\\\\.\\USBPcap1",
     ];
     let mut process =
-        tokio::process::Command::new("c:\\Users\\qdot\\code\\elden-cockring\\hapticscap.exe")
+        tokio::process::Command::new("c:\\Program Files\\USBPcap\\USBPcapCMD.exe")
             .args(program_args)
             .stdout(std::process::Stdio::piped())
             .stderr(std::process::Stdio::piped())
             .kill_on_drop(true)
             .spawn()
             .unwrap();
-    println!("{:?}", process);
-    //process.wait().await.unwrap();
-    let stdout = process.stdout.take().unwrap();
-    let mut stdout_reader = BufReader::new(stdout).lines();
+    let mut stdout = process.stdout.take().unwrap();
     tokio::spawn(async move {
         println!("Waiting for process exit");
         let status = process
@@ -82,10 +82,12 @@ async fn main() {
             .expect("child process encountered an error");
         println!("child status was: {}", status);
     });
-    while let Ok(Some(line)) = stdout_reader.next_line().await {
-        let speed_array = serde_json::from_str::<[u8; 2]>(&line).unwrap();
-        println!("{:?}", speed_array);
-        sender.send(speed_array).await.unwrap();
+    let mut buf = vec![0u8; 1024];
+    while let Ok(size) = &stdout.read(&mut buf).await {
+        // I mean we *could* parse out pcap but meh.
+        if *size > 38 && buf[37] == 0x02 && buf[39] == 0x0d {
+            sender.send([buf[51], buf[52]]).await.unwrap();
+        }
     }
     println!("Exited");
 }

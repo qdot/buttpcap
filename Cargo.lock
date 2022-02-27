@@ -229,6 +229,8 @@ checksum = "a4a45a46ab1f2412e53d3a0ade76ffad2025804294569aae387231a0cd6e0899"
 [[package]]
 name = "buttplug"
 version = "5.1.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "964e5bdc5bf882a6258e728a7e7277f8de59c36eaca312763cf528aadeefede5"
 dependencies = [
  "async-stream",
  "async-trait",
@@ -493,8 +495,6 @@ version = "0.1.0"
 dependencies = [
  "buttplug",
  "futures",
- "serde",
- "serde_json",
  "tokio",
 ]
 
