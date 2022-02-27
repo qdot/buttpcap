@@ -2,10 +2,7 @@ use buttplug::client::{
     ButtplugClient, ButtplugClientDeviceMessageType, ButtplugClientEvent, VibrateCommand,
 };
 use futures::StreamExt;
-use tokio::{
-    io::AsyncReadExt,
-    sync::mpsc,
-};
+use tokio::{io::{AsyncReadExt}, sync::mpsc};
 
 async fn buttplug_loop(mut event_receiver: mpsc::Receiver<[u8; 2]>) {
     let client = ButtplugClient::new("test client");
@@ -57,22 +54,42 @@ async fn main() {
         buttplug_loop(receiver).await
     });
 
-    let program_args = vec![
-        "-o",
-        "-",
-        "--devices",
-        "6",
-        "-d",
-        "\\\\.\\USBPcap1",
-    ];
-    let mut process =
-        tokio::process::Command::new("c:\\Program Files\\USBPcap\\USBPcapCMD.exe")
-            .args(program_args)
-            .stdout(std::process::Stdio::piped())
-            .stderr(std::process::Stdio::piped())
-            .kill_on_drop(true)
-            .spawn()
-            .unwrap();
+    // Look up where the XBox controller is. We should probably expand our name search to include
+    // other controller types that talk Actual XInput too.
+
+    let lookup_program_args = vec!["--extcap-interface", "\\\\.\\USBPcap1", "--extcap-config"];
+
+    let lookup_output = tokio::process::Command::new("c:\\Program Files\\USBPcap\\USBPcapCMD.exe")
+        .args(lookup_program_args)
+        .kill_on_drop(true)
+        .output()
+        .await
+        .unwrap();
+
+    let mut index = String::new();
+    let output = String::from_utf8(lookup_output.stdout).unwrap();
+    for line in output.lines() {
+        if line.contains("Xbox One") {
+            let re = regex::Regex::new(r"value=(\d+)").unwrap();
+            index = re.captures(line).unwrap()[1].to_owned();
+        }
+    }
+
+    if index.is_empty() {
+        println!("Cannot find Xbox One controller on USB busses, exiting");
+        return;
+    }
+
+    println!("XBox One Controller found on USB as Device {index}");
+
+    let program_args = vec!["-o", "-", "--devices", &index, "-d", "\\\\.\\USBPcap1"];
+    let mut process = tokio::process::Command::new("c:\\Program Files\\USBPcap\\USBPcapCMD.exe")
+        .args(program_args)
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped())
+        .kill_on_drop(true)
+        .spawn()
+        .unwrap();
     let mut stdout = process.stdout.take().unwrap();
     tokio::spawn(async move {
         println!("Waiting for process exit");
