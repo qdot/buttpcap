@@ -42,13 +42,13 @@ The code now works with the stock USBPcap driver from the binary install, as wel
 
 The system does automated lookup for the device index of an Xbox One Controller. This is *required* to be an actual Xbox One Controller or something that registers with that exact USB name. If you have other controllers you think would work with this, let me know in the issues on this repo and I can add a lookup array for checking. I don't get VID/PID currently so we're stuck with name testing.
 
-## Compiling and Installation
-
-Coming Soon
-
 ## How It Works
 
 For information on how this as well as the GHR, CGHR, etc works, check out the [technical write-up on nonpolynomial.com](https://nonpolynomial.com/2022/02/27/919/)
+
+## Compiling and Installation
+
+Coming Soon
 
 ## License
 
