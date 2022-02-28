@@ -48,7 +48,7 @@ Coming Soon
 
 ## How It Works
 
-Coming Soon
+For information on how this as well as the GHR, CGHR, etc works, check out the [technical write-up on nonpolynomial.com](https://nonpolynomial.com/2022/02/27/919/)
 
 ## License
 
