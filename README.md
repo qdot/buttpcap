@@ -16,6 +16,10 @@ reroute rumble packets to sex toys via [The Buttplug Sex Toy Control Library](ht
 
 ## Demo Video
 
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=KyMZBOQtmic"><img src="https://img.youtube.com/vi/KyMZBOQtmic/0.jpg"></a>
+</p>
+
 There's a [demo video on the Buttpluggin' With qDot Youtube Channel](https://www.youtube.com/watch?v=KyMZBOQtmic).
 
 ## WARNING AGAINST USING THIS AT ALL
