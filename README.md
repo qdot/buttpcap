@@ -14,6 +14,14 @@
 Using [USBPcap](https://github.com/desowin/usbpcap/) to side-step anticheat in games, in order to
 reroute rumble packets to sex toys via [The Buttplug Sex Toy Control Library](https://buttplug.io).
 
+## BUTTPCAP IS NOT NEEDED FOR ELDEN RING
+
+While buttpcap was a neat stunt hack, it turns out that you can turn off EAC for Elden Ring by renaming the binaries, which will make the [Game Haptics Router](https://intiface.com/ghr) work with it. This method will turn off online access, but that's fine (see second warning section below).
+
+[See this twitter thread for more info.](https://twitter.com/buttplugio/status/1499444008644333572)
+
+It is recommended that you use the GHR instead of this project if you want sex toy interaction with Elden Ring.
+
 ## Demo Video
 
 <p align="center">
