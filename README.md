@@ -52,7 +52,23 @@ For information on how this as well as the GHR, CGHR, etc works, check out the [
 
 ## Compiling and Installation
 
-Coming Soon
+Here's the compilation instructions, which you shouldn't use because see prior warnings.
+
+This only works on Windows 10 Build 20H2 or newer (including Windows 11).
+
+To compile:
+
+- Install the [Rust Compiler](https://rustup.rs)
+- Clone git repo
+- Run `cargo build` (or `cargo build --release` for release version)
+
+To run:
+
+- Install [USBPcap](https://github.com/desowin/usbpcap/)
+  - Program expects this to live in default location on C: drives.
+- Run `cargo run` (or the exectuable will be in `target/debug` or `target/release`)
+
+Right now this *requires* an XBox One Controller. If you've got another XInput controller, and can confirm that it uses the same data format as an Xbox controller, you can change the name in the code.
 
 ## License
 
